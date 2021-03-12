@@ -107,9 +107,9 @@ if __name__=='__main__':
     print("已运行")
     start_url = 'http://1.1.1.1'
     # 帐号密码
-    userName = '1928424171'
-    passwd = 'ChEn16684090039'
-    net = '移动'
+    userName = ''  # 账户名
+    passwd = '' # 密码
+    net = '移动' # 移动、电信、联通
     # get请求
     r = requests.get(start_url)
     # login_url
