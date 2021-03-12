@@ -76,6 +76,7 @@ def login(head, body, login_url):
     login_api = "http://10.101.2.199/portalAuthAction.do"
     # post
     r = requests.post(login_api,headers=head,data=body)
+    # 判断是否登录成功
     if r.url == "http://autewifi.net":
         return True
     else:
@@ -103,23 +104,54 @@ def login_out():
     else:
         return False
 
+# 是否已经登录
+def isLogin(r):
+    if "河南师范大学" in r.text:
+        return False
+    else:
+        return True
+
+# 返回网络类型        
+def getNet():
+    netDict={'1':'移动', '2':'电信', '3':'联通'}
+    print("1、移动\n2、电信\n3、联通\n")
+    while(True):
+        num = input("请输入网络类型：")
+        try:
+            net = netDict[num] 
+        except:
+            print("非法，请重新输入:")
+            continue
+        # 如果没有发生异常，返回值
+        else:
+            return net
+            break
+
 if __name__=='__main__':
     print("已运行")
-    start_url = 'http://1.1.1.1'
-    # 帐号密码
-    userName = ''  # 账户名
-    passwd = '' # 密码
-    net = '移动' # 移动、电信、联通
+    start_url = 'http://119.29.29.29/'
+    # 帐号密码和网络类型
+    userName = '1928424171'
+    passwd = 'ChEn16684090039'
+    net = '移动'
     # get请求
     r = requests.get(start_url)
     # login_url
     login_url = r.url
-    # 未登录
-    if '河南师范大学' in r.text:
+    #  如果未登录
+    if not isLogin(r):
+        userName = input("请输入用户名：")
+        passwd = input("请输入密码：")
+        net = getNet()
         Info = createInfo(start_url, userName, passwd, net, r)
         r = login(Info[0], Info[1], login_url)
         if r:
             print("您已登录")
     else:
-        print("您已登录")
-        #login_out()
+        print("您已登录!\n是否要退出登录？(yes or no):")
+        isloginOut=input()
+        if isloginOut in ['yes','y']:
+            login_out()
+            print("已推出！")
+        else:
+            print("运行结束")
