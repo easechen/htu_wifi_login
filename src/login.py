@@ -131,9 +131,9 @@ if __name__=='__main__':
     print("已运行")
     start_url = 'http://119.29.29.29/'
     # 帐号密码和网络类型
-    userName = '1928424171'
-    passwd = 'ChEn16684090039'
-    net = '移动'
+    userName = '' # 用户名
+    passwd = '' # 密码
+    net = '' # 类型，移动，联通，电信
     # get请求
     r = requests.get(start_url)
     # login_url
