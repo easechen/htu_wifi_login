@@ -152,6 +152,6 @@ if __name__=='__main__':
         isloginOut=input()
         if isloginOut in ['yes','y']:
             login_out()
-            print("已推出！")
-        else:
-            print("运行结束")
+            print("已退出！")
+    print("运行结束！按任意键推出。") 
+    input()
