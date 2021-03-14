@@ -151,7 +151,9 @@ if __name__=='__main__':
         print("您已登录!\n是否要退出登录？(yes or no):")
         isloginOut=input()
         if isloginOut in ['yes','y']:
-            login_out()
-            print("已退出！")
+            if login_out():
+                print("已退出！")
+            else:
+                print("退出失败！")
     print("运行结束！按任意键推出。") 
     input()
