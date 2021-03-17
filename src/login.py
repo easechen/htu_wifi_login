@@ -140,6 +140,7 @@ if __name__=='__main__':
     except:
         print("错误！未连接至校园网，请检查网络设置！\n")
         print("任意键退出！")
+        input()
         exit(1)
     # login_url
     login_url = r.url
