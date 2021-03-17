@@ -146,9 +146,12 @@ if __name__=='__main__':
     login_url = r.url
     #  如果未登录
     if not isLogin(r):
+        # 输入用户信息，如不需要，注释掉即可
+        # -----------------------------------
         userName = input("请输入用户名：")
         passwd = input("请输入密码：")
         net = getNet()
+        # -----------------------------------
         Info = createInfo(start_url, userName, passwd, net, r)
         r = login(Info[0], Info[1], login_url)
         if r:
