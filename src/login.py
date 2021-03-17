@@ -138,7 +138,7 @@ if __name__=='__main__':
     try:
         r = requests.get(start_url)
     except:
-        print("错误！未连接至校园网，请检查网络设置！\n")
+        print("错误！未连接至校园网，请检查网络设置！")
         print("任意键退出！")
         input()
         exit(1)
