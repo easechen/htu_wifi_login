@@ -135,7 +135,12 @@ if __name__=='__main__':
     passwd = '' # 密码
     net = '' # 类型，移动，联通，电信
     # get请求
-    r = requests.get(start_url)
+    try:
+        r = requests.get(start_url)
+    except:
+        print("错误！未连接至校园网，请检查网络设置！\n")
+        print("任意键退出！")
+        exit(1)
     # login_url
     login_url = r.url
     #  如果未登录
