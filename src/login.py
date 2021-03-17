@@ -1,7 +1,8 @@
 import requests
+import time
 
 # 构造数据
-def createInfo(start_url, userName, passwd, net, r):
+def createInfo(userName, passwd, net, r):
     
     # 网络类型字典
     network = {'移动':'@yd','联通':'@lt','电信':'@dx'}
@@ -20,16 +21,20 @@ def createInfo(start_url, userName, passwd, net, r):
     # 获取 wlanacname
     acname_p1=login_url.index('wlanacname=')+11
     wlanacname = login_url[acname_p1:]
+    # 获取网关地址
+    gateway_end = login_url.find("portal")-1
+    gateway_host_ip = login_url[7:gateway_end]
+    gateway_host = login_url[:gateway_end]
 
     head={
-        'Host': '10.101.2.199',
+        'Host': gateway_host_ip,
         'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
         'Accept-Encoding': 'gzip, deflate',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': '668',
-        'Origin': 'http://10.101.2.199',
+        'Origin': gateway_host,
         'Connection': 'close',
         'Referer': login_url,
         'Cookie': cookie,
@@ -72,8 +77,13 @@ def createInfo(start_url, userName, passwd, net, r):
     return head, body
 
 #登录
-def login(head, body, login_url):
-    login_api = "http://10.101.2.199/portalAuthAction.do"
+def login(head, body, r):
+    login_url = r.url
+    # 获取网关地址
+    gateway_end = login_url.find("portal")-1
+    gateway_host = login_url[:gateway_end]
+
+    login_api = gateway_host+"/portalAuthAction.do"
     # post
     r = requests.post(login_api,headers=head,data=body)
     # 判断是否登录成功
@@ -104,6 +114,21 @@ def login_out():
     else:
         return False
 
+# 测试登录环境是否为校园网
+def test_login_environmnet():
+    start_url = 'http://119.29.29.29/'
+    # get请求
+    try:
+        r = requests.get(start_url)
+    except:
+        print("错误！未连接至校园网，请检查网络设置！")
+        print("任意键退出！")
+        input()
+        exit(1)
+    # 已连接至校园网
+    else:
+        return r
+    
 # 是否已经登录
 def isLogin(r):
     if "河南师范大学" in r.text:
@@ -125,44 +150,53 @@ def getNet():
         # 如果没有发生异常，返回值
         else:
             return net
-            break
 
 if __name__=='__main__':
     print("已运行")
-    start_url = 'http://119.29.29.29/'
-    # 帐号密码和网络类型
-    userName = '' # 用户名
-    passwd = '' # 密码
-    net = '' # 类型，移动，联通，电信
-    # get请求
-    try:
-        r = requests.get(start_url)
-    except:
-        print("错误！未连接至校园网，请检查网络设置！")
-        print("任意键退出！")
-        input()
-        exit(1)
-    # login_url
-    login_url = r.url
+    
+    # 这里修改成自己的帐号密码和网络类型
+    # ------------------------------------
+    userName = '19284**' # 用户名
+    passwd = '*****' # 密码
+    net = '移动' # 类型，移动，联通，电信
+    # ------------------------------------
+
+    # 测试环境
+    r = test_login_environmnet()
     #  如果未登录
     if not isLogin(r):
-        # 输入用户信息，如不需要，注释掉即可
-        # -----------------------------------
-        userName = input("请输入用户名：")
-        passwd = input("请输入密码：")
-        net = getNet()
-        # -----------------------------------
-        Info = createInfo(start_url, userName, passwd, net, r)
-        r = login(Info[0], Info[1], login_url)
-        if r:
-            print("您已登录")
+        while (True):
+            # 输入用户信息，如不需要，注释掉即可
+            # -----------------------------------
+            #userName = input("请输入用户名：")
+            #passwd = input("请输入密码：")
+            #net = getNet()
+            # -----------------------------------
+            Info = createInfo(userName, passwd, net, r)
+            isLoginSuccess = login(Info[0], Info[1], r)
+            # 登录成功
+            if isLoginSuccess:
+                print("正在尝试登录......\n登录成功！")
+                break
+            # 登录失败
+            else:
+                print("认证错误或其他设备已登录，是否要重新登录？(yes or no):")
+                isRelogin = input()
+                if isRelogin in ['yes', 'y','\n']:
+                    continue
+                else:
+                    print("登录失败！程序正在退出～～")
+                    time.sleep(2)
+                    exit(1)
+
     else:
         print("您已登录!\n是否要退出登录？(yes or no):")
         isloginOut=input()
-        if isloginOut in ['yes','y']:
+        if isloginOut in ['yes','y', '\n']:
             if login_out():
                 print("已退出！")
             else:
                 print("退出失败！")
-    print("运行结束！按任意键推出。") 
-    input()
+    print("运行结束！程序正在退出～～") 
+    time.sleep(2)
+    exit(0)
