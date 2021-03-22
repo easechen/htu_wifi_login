@@ -1,8 +1,13 @@
 import requests
 import time
+import json
+# return start urls
+def getStartUrl():
+    return "http://119.29.29.29/"
+    #return "http://210.42.255.130/portalReceiveAction.do?wlanuserip=10.17.57.184&wlanacname=HNSFDX_H3C-S8808-X"
 
 # 构造数据
-def createInfo(userName, passwd, net, r):
+def createInfo(location,userName, passwd, net, r):
     
     # 网络类型字典
     network = {'移动':'@yd','联通':'@lt','电信':'@dx'}
@@ -14,6 +19,7 @@ def createInfo(userName, passwd, net, r):
     #获取登录url
     login_url = r.url
     cookie = r.headers['Set-Cookie']
+    cookie = cookie[:-18]
     # 获取 wlanuserip
     userip_p1 = login_url.index('wlanuserip=')+11
     userip_p2 = login_url.index('&')
@@ -26,55 +32,44 @@ def createInfo(userName, passwd, net, r):
     gateway_host_ip = login_url[7:gateway_end]
     gateway_host = login_url[:gateway_end]
 
-    head={
+    # 宿舍
+    if (location == '宿舍'):
+        head={
+            'Host': gateway_host_ip,
+            'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+            'Accept-Encoding': 'gzip, deflate',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': '668',
+            'Origin': gateway_host,
+            'Connection': 'close',
+            'Referer': login_url,
+            'Cookie': cookie,
+            'Upgrade-Insecure-Requests': '1'
+        }
+        raw_body = 'wlanuserip=%s&wlanacname=%s&chal_id=&chal_vector=&auth_type=PAP&seq_id=&req_id=&wlanacIp=10.101.2.35&ssid=&vlan=&mac=&message=&bank_acct=&isCookies=&version=0&authkey=88----89&url=&usertime=0&listpasscode=0&listgetpass=0&getpasstype=0&randstr=4430&domain=&isRadiusProxy=true&usertype=0&isHaveNotice=0&times=12&weizhi=0&smsid=1&freeuser=&freepasswd=&listwxauth=0&templatetype=1&tname=shida_pc_portal_mubiao_V2.1&logintype=0&act=&is189=false&terminalType=&checkterminal=true&portalpageid=261&listfreeauth=0&viewlogin=1&userid=%s&authGroupId=&userName=%s&passwd=%s&useridtemp=%s&operator=%s' % (wlanuserip, wlanacname, userid, userName, passwd, useridtemp, operator)
+        
+    # 东综
+    elif (location == '教学楼'):
+        head = {
         'Host': gateway_host_ip,
-        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-        'Accept-Encoding': 'gzip, deflate',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': '668',
+        # 'Content-Length': '588',
+        # 'Cache-Control': 'max-age=0',
+        'Upgrade-Insecure-Requests': '1',
         'Origin': gateway_host,
-        'Connection': 'close',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'ser-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'Referer': login_url,
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept-Language': 'zh-CN,zh;q=0.9',
         'Cookie': cookie,
-        'Upgrade-Insecure-Requests': '1'
-    }
-    body={
-        'wlanuserip' : wlanuserip,
-        'wlanacname' : wlanacname,
-        'auth_type' : 'PAP',
-        'wlanacIp' : '10.101.2.35',
-        'version' : '0',
-        'authkey' : '88----89',
-        'usertime' : '0',
-        'listpasscode' : '0',
-        'listgetpass' : '0',
-        'getpasstype' : '0',
-        'randstr' : '4929',
-        'isRadiusProxy' : 'true',
-        'usertype' : '0',
-        'isHaveNotice' : '0',
-        'times' : '12',
-        'weizhi' : '0',
-        'smsid' : '1',
-        'listwxauth' : '0',
-        'templatetype' : '1',
-        'tname' : 'shida_pc_portal_mubiao_V2.1',
-        'logintype' : '0',
-        'is189' : 'false',
-        'checkterminal' : 'true',
-        'portalpageid' : '261',
-        'listfreeauth' : '0',
-        'viewlogin' : '1',
-        'userid' : userid,
-        'userName' : userName,
-        'passwd' : passwd,
-        'useridtemp' : useridtemp,
-        'operator' : operator
-    }
-
-    return head, body
+        'Connection': 'close'
+        }
+        
+        raw_body = "wlanuserip=%s&wlanacname=%s&chal_id=&chal_vector=&auth_type=PAP&seq_id=&req_id=&wlanacIp=210.42.255.60&ssid=&vlan=&mac=&message=&bank_acct=&isCookies=&version=0&authkey=88----89&url=&usertime=0&listpasscode=0&listgetpass=0&getpasstype=0&randstr=2934&domain=&isRadiusProxy=false&usertype=0&isHaveNotice=0&times=12&weizhi=0&smsid=&freeuser=&freepasswd=&listwxauth=0&templatetype=1&tname=shida_pc_portal&logintype=0&act=&is189=false&terminalType=&checkterminal=true&portalpageid=101&listfreeauth=0&viewlogin=1&userid=601nb&authGroupId=&useridtemp=601nb&passwd=3223" % (wlanuserip, wlanacname)
+    return head, raw_body
 
 #登录
 def login(head, body, r):
@@ -86,8 +81,9 @@ def login(head, body, r):
     login_api = gateway_host+"/portalAuthAction.do"
     # post
     r = requests.post(login_api,headers=head,data=body)
+    #print(r.text)
     # 判断是否登录成功
-    if r.url == "http://autewifi.net":
+    if r.url in ["http://autewifi.net", "http://www.htu.cn/"]:
         return True
     else:
         return False
@@ -114,20 +110,18 @@ def login_out():
     else:
         return False
 
-# 测试登录环境是否为校园网
-def test_login_environmnet():
-    start_url = 'http://119.29.29.29/'
+# 测试是否已连接至网络
+def isConnected():
+    start_url = getStartUrl()
     # get请求
     try:
         r = requests.get(start_url)
+    # 未连接至网络，出错
     except:
-        print("错误！未连接至校园网，请检查网络设置！")
-        print("任意键退出！")
-        input()
-        exit(1)
-    # 已连接至校园网
+        return False
+    # 已连接至网络
     else:
-        return r
+        return True
     
 # 是否已经登录
 def isLogin(r):
@@ -135,6 +129,7 @@ def isLogin(r):
         return False
     else:
         return True
+        
 
 # 返回网络类型        
 def getNet():
@@ -151,45 +146,75 @@ def getNet():
         else:
             return net
 
+# 返回所处环境名称
+def returnLocation(r):
+    location = ''
+    if "修改密码（注：仅限临时账号使用）" in r.text:
+        location = '教学楼'
+    elif '河南师范大学校园网登录' in r.text:
+        location = '宿舍'
+    
+    return location
+
+
 if __name__=='__main__':
     print("已运行")
+    print("正在检测运行环境......") 
     
-    # 这里修改成自己的帐号密码和网络类型
-    # ------------------------------------
-    userName = '19284**' # 用户名
-    passwd = '*****' # 密码
-    net = '移动' # 类型，移动，联通，电信
-    # ------------------------------------
+    start_url = getStartUrl()
 
-    # 测试环境
-    r = test_login_environmnet()
+    # 测试是否连接至网络
+    if isConnected():
+        r = requests.get(start_url)
+    else:
+        print("错误！您尚未连接至网络！请检查网络设置后再试！")
+        input()
+        exit(1)
+
     #  如果未登录
     if not isLogin(r):
-        while (True):
-            # 输入用户信息，如不需要，注释掉即可
-            # -----------------------------------
-            #userName = input("请输入用户名：")
-            #passwd = input("请输入密码：")
-            #net = getNet()
-            # -----------------------------------
-            Info = createInfo(userName, passwd, net, r)
-            isLoginSuccess = login(Info[0], Info[1], r)
-            # 登录成功
-            if isLoginSuccess:
-                print("正在尝试登录......\n登录成功！")
-                break
-            # 登录失败
-            else:
-                print("认证错误或其他设备已登录，是否要重新登录？(yes or no):")
-                isRelogin = input()
-                if isRelogin in ['yes', 'y','\n']:
-                    continue
+        # 获取地点名称
+        location = returnLocation(r)
+        print("当前处于 "+location+" ！")
+        # 如果位于宿舍
+        if (location == '宿舍'):
+            while (True):
+                # 这里修改成自己的帐号密码和网络类型
+                # ------------------------------------
+                userName = '1928424171' # 用户名
+                passwd = 'ChEn16684090039' # 密码
+                net = '移动' # 类型，移动，联通，电信
+                # ------------------------------------
+                # 输入功能
+                # -----------------------------------
+                #userName = input("请输入用户名：")
+                #passwd = input("请输入密码：")
+                #net = getNet()
+                # -----------------------------------
+                Info = createInfo(location,userName, passwd, net, r)
+                isLoginSuccess = login(Info[0], Info[1], r)
+                print("正在尝试登录......")
+                # 登录成功
+                if isLoginSuccess:
+                    print("登录成功！")
+                    break
+                # 登录失败
                 else:
-                    print("登录失败！程序正在退出～～")
-                    time.sleep(2)
-                    exit(1)
-
-    else:
+                    print("认证错误或其他设备已登录，是否要重新登录？(yes or no):")
+                    isRelogin = input()
+                    if isRelogin in ['yes', 'y','\n']:
+                        continue
+                    else:
+                        print("登录失败！程序正在退出～～")
+                        time.sleep(2)
+                        exit(1)
+        # 如果位于东综
+        elif (location == '教学楼'):
+            Info = createInfo(location,'601nb','12123','移动',r)
+            isLoginSuccess = login(Info[0], Info[1], r)
+            if isLoginSuccess:
+                print("登录成功！")
+    else :
         print("您已登录!\n是否要退出登录？(yes or no):")
         isloginOut=input()
         if isloginOut in ['yes','y', '\n']:
