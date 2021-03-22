@@ -13,7 +13,7 @@
 
 ## 使用方法
 首先安装`requests`库，
-下载`src/login.py`，修改代码中的用户名、密码和网络类型，之后直接运行即可。
+下载[Release中的文件](https://github.com/easechen/htu_wifi_login/releases/)，修改`src/login.py`代码中的用户名、密码和网络类型，之后直接运行即可。
 ~~~python
 python login.py
 ~~~
