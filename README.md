@@ -7,11 +7,11 @@
 
 ### 登录
 
-![login](.\img\login.gif)
+![login.gif](https://pic.chens.life/images/2021/04/08/login.gif)
 
 ### 登出
 
-![loginout](.\img\loginout.gif)
+![loginout.gif](https://pic.chens.life/images/2021/04/08/loginout.gif)
 
 ## 功能完成
 
