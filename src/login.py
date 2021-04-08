@@ -1,6 +1,14 @@
 import requests
 import time
 import json
+
+# 这里修改成自己的帐号密码和网络类型
+# ------------------------------------
+userName = '1928424171' # 用户名
+passwd = 'ChEn16684090039' # 密码
+net = '移动' # 类型，移动，联通，电信
+# ------------------------------------
+
 # return start urls
 def getStartUrl():
     return "http://119.29.29.29/"
@@ -179,12 +187,7 @@ if __name__=='__main__':
         # 如果位于宿舍
         if (location == '宿舍'):
             while (True):
-                # 这里修改成自己的帐号密码和网络类型
-                # ------------------------------------
-                userName = '1928**' # 用户名
-                passwd = '123***' # 密码
-                net = '移动' # 类型，移动，联通，电信
-                # ------------------------------------
+                
                 # 输入功能
                 # -----------------------------------
                 #userName = input("请输入用户名：")
@@ -205,8 +208,8 @@ if __name__=='__main__':
                     if isRelogin in ['yes', 'y','\n']:
                         continue
                     else:
-                        print("登录失败！程序正在退出～～")
-                        time.sleep(2)
+                        print("登录失败！")
+                        input()
                         exit(1)
         # 如果位于东综
         elif (location == '教学楼'):
@@ -222,6 +225,6 @@ if __name__=='__main__':
                 print("已退出！")
             else:
                 print("退出失败！")
-    print("运行结束！程序正在退出～～") 
-    time.sleep(2)
+    print("运行结束！") 
+    input()
     exit(0)
