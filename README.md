@@ -7,11 +7,11 @@
 
 ### 登录
 
-![login](C:\Users\easechen\Documents\myDocumnets\github\htu_wifi_login\login.gif)
+![login](.\img\login.gif)
 
 ### 登出
 
-![loginout](C:\Users\easechen\Documents\myDocumnets\github\htu_wifi_login\loginout.gif)
+![loginout](.\img\loginout.gif)
 
 ## 功能完成
 
