@@ -2,6 +2,17 @@
 本脚本仅供学习使用，目前只在东16实验过。
 
 目前不支持教学楼校园网的登录。
+
+## 效果
+
+### 登录
+
+![login](C:\Users\easechen\Documents\myDocumnets\github\htu_wifi_login\login.gif)
+
+### 登出
+
+![loginout](C:\Users\easechen\Documents\myDocumnets\github\htu_wifi_login\loginout.gif)
+
 ## 功能完成
 
 - [x] 宿舍网络的登录
