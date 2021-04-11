@@ -73,17 +73,7 @@ def login(head, body, r):
 def login_out():
     loginOutUrl = "http://autewifi.net/loginOut"
     head={
-        'Host': 'autewifi.net',
-        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0',
-        'Accept': '*/*',
-        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-        'Accept-Encoding': 'gzip, deflate',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Origin': 'http://autewifi.net',
-        'Connection': 'close',
-        'Referer': 'http://autewifi.net/',
-        'Cookie': 'JSESSIONID=29256E22762FCB9073F8492E5EBB6001',
-        'Content-Length': '0'
+        'Host': 'autewifi.net','User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0','Cookie': 'JSESSIONID=29256E22762FCB9073F8492E5EBB6001'
     }
     r = requests.post(url=loginOutUrl,headers=head)
     if "下线成功" in r.text:
