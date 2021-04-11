@@ -1,7 +1,7 @@
 # 河南师范大学寝室校园网自动登录脚本
 本脚本仅供学习使用，仅在东区进行过测试。
 
-目前支持有限的东综教学楼的校园网登录。（Release版本不支持，仅测试代码）
+目前支持有限的东综教学楼的校园网登录。
 
 ## 效果
 
@@ -20,9 +20,15 @@
 
 ## 所需的库
 - requests
+- lxml
 
 ## 使用方法
-首先安装`requests`库，
+首先安装`requests`和`lxml`库，
+
+~~~bash
+pip install requests lxml
+~~~
+
 下载[Release中的文件](https://github.com/easechen/htu_wifi_login/releases/)，修改`src/login.py`代码中的用户名、密码和网络类型，之后直接运行即可。
 
 ~~~python
