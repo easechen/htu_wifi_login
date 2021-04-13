@@ -2,14 +2,14 @@ import requests
 from lxml import etree
 # 这里修改成自己的帐号密码和网络类型
 # ------------------------------------
-userName = '19284***' # 用户名
-passwd = '2323***' # 密码
+userName = '192842***' # 用户名
+passwd = 'abc***' # 密码
 net = '移动' # 类型，移动，联通，电信
 # ------------------------------------
 
 # return start urls
 def getStartUrl():
-    return "http://119.29.29.29/"
+    return "http://1.1.1.1"
     # return "http://210.42.255.130/portalReceiveAction.do?wlanuserip=10.37.131.137&wlanacname=HNSFDX_H3C-S8808-X"
 
 # 构造数据
@@ -73,7 +73,7 @@ def login(head, body, r):
 def login_out():
     loginOutUrl = "http://autewifi.net/loginOut"
     head={
-        'Host': 'autewifi.net','User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0','Cookie': 'JSESSIONID=29256E22762FCB9073F8492E5EBB6001'
+        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0','Cookie': 'JSESSIONID=29256E22762FCB9073F8492E5EBB6001',
     }
     r = requests.post(url=loginOutUrl,headers=head)
     if "下线成功" in r.text:
@@ -82,8 +82,7 @@ def login_out():
         return False
 
 # 测试是否已连接至网络
-def isConnected():
-    start_url = getStartUrl()
+def isConnected(start_url):
     # get请求
     try:
         requests.get(start_url)
@@ -135,7 +134,7 @@ if __name__=='__main__':
     start_url = getStartUrl()
 
     # 测试是否连接至网络
-    if isConnected():
+    if isConnected(start_url):
         r = requests.get(start_url)
     else:
         print("错误！您尚未连接至网络！请检查网络设置后再试！")
