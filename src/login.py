@@ -9,7 +9,7 @@ net = '移动' # 类型，移动，联通，电信
 
 # return start urls
 def getStartUrl():
-    return "http://223.5.5.5"
+    return "http://1.1.1.1"
     # return "http://210.42.255.130/portalReceiveAction.do?wlanuserip=10.37.131.137&wlanacname=HNSFDX_H3C-S8808-X"
 
 # 构造数据
