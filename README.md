@@ -67,7 +67,7 @@ python3 PATH/login.py
 赋予权限
 
 ~~~bash
-sudo chmod +X wifi
+sudo chmod +x wifi
 ~~~
 
 将其复制到`bin`目录，这样即可在终端直接输入`wifi`直接启动。
