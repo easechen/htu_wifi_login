@@ -40,6 +40,44 @@ pip install requests lxml
 python login.py
 ~~~
 
+## 自动登录
+
+使用脚本实现开机自动启动脚本进行登录。
+
+### windows
+
+使用@CykaOWO提供的方法：
+
+新建bat代码如下
+~~~bash
+ @echo off
+ choice /t T /d y /n >nul
+ start "" "路径\login.py"
+~~~
+ 第二行T改为时间，单位为秒。将他们添加到开机启动项即可。详见 https://answers.microsoft.com/zh-hans/windows/forum/windows_10-other_settings/windows/a81e83eb-a079-4b3c-9d8f-facc9ed03871?tm=1442997086548
+
+### Linux
+
+新建`wifi`，填入
+
+~~~bash
+python3 PATH/login.py
+~~~
+
+赋予权限
+
+~~~bash
+sudo chmod +X wifi
+~~~
+
+将其复制到`bin`目录，这样即可在终端直接输入`wifi`直接启动。
+
+~~~bash
+sudo cp wifi /usr/bin/
+~~~
+
+
+
 ## 更新日志
 
 ### 2021-4-9
