@@ -1,4 +1,5 @@
 import requests
+import re
 from lxml import etree
 # 这里修改成自己的帐号密码和网络类型
 # ------------------------------------
@@ -11,7 +12,7 @@ passwd_1 = ''#教学楼校园网密码（身份证后七位的前六位）
 
 # return start urls
 def getStartUrl():
-    return "http://1.1.1.1"
+    return "http://autewifi.net"
     # return "http://210.42.255.130/portalReceiveAction.do?wlanuserip=10.37.131.137&wlanacname=HNSFDX_H3C-S8808-X"
 
 # 构造数据
@@ -27,18 +28,13 @@ def createInfo(location,userName, passwd, net, r):
     #获取登录url
     login_url = r.url
     cookie = r.headers['Set-Cookie']
-    cookie = cookie[:-18]
+    cookie = re.findall(r'.*(?=; Path)', cookies)[0]
     # 获取 wlanuserip
-    userip_p1 = login_url.index('wlanuserip=')+11
-    userip_p2 = login_url.index('&')
-    wlanuserip = login_url[userip_p1:userip_p2]
+    wlanuserip = re.findall(r'(?<=wlanuserip=).*(?=&)', login_url)[0]
     # 获取 wlanacname
-    acname_p1=login_url.index('wlanacname=')+11
-    wlanacname = login_url[acname_p1:]
+    wlanacname = re.findall(r'(?<=wlanacname=).*', login_url)[0]
     # 获取网关地址
-    gateway_end = login_url.find("portal")-1
-    gateway_host_ip = login_url[7:gateway_end]
-    gateway_host = login_url[:gateway_end]
+    gateway_host = re.findall(r'(?<=//).*(?=/po)', login_url)[0]
     # 获取交换机 wlanacIp
     html = etree.HTML(r.text)
     wlanacIp = html.xpath('//input[@id="wlanacIp"]/@value')[0]
