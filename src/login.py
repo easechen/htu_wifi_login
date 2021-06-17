@@ -11,7 +11,7 @@ passwd_1 = ''#教学楼校园网密码（身份证后七位的前六位）
 
 # return start urls
 def getStartUrl():
-    return "http://1.1.1.1"
+    return "http://www.baidu.com"
     # return "http://210.42.255.130/portalReceiveAction.do?wlanuserip=10.37.131.137&wlanacname=HNSFDX_H3C-S8808-X"
 
 # 构造数据
