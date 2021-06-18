@@ -27,14 +27,15 @@ def createInfo(location,userName, passwd, net, r):
     operator = network[net]
     #获取登录url
     login_url = r.url
-    cookie = r.headers['Set-Cookie']
+    cookies = r.headers['Set-Cookie']
     cookie = re.findall(r'.*(?=; Path)', cookies)[0]
     # 获取 wlanuserip
     wlanuserip = re.findall(r'(?<=wlanuserip=).*(?=&)', login_url)[0]
     # 获取 wlanacname
     wlanacname = re.findall(r'(?<=wlanacname=).*', login_url)[0]
     # 获取网关地址
-    gateway_host = re.findall(r'(?<=//).*(?=/po)', login_url)[0]
+    gateway_host_ip = re.findall(r'(?<=//).*(?=/po)', login_url)[0]
+    gateway_host = re.findall(r'.*(?=/po)', login_url)[0]
     # 获取交换机 wlanacIp
     html = etree.HTML(r.text)
     wlanacIp = html.xpath('//input[@id="wlanacIp"]/@value')[0]
@@ -53,8 +54,7 @@ def createInfo(location,userName, passwd, net, r):
 def login(head, body, r):
     login_url = r.url
     # 获取网关地址
-    gateway_end = login_url.find("portal")-1
-    gateway_host = login_url[:gateway_end]
+    gateway_host = re.findall(r'.*(?=/po)', login_url)[0]
 
     login_api = gateway_host+"/portalAuthAction.do"
     # post
