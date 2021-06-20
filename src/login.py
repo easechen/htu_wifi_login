@@ -2,7 +2,7 @@ import requests
 from lxml import etree
 # 这里修改成自己的帐号密码和网络类型
 # ------------------------------------
-userName = '192842***' # 用户名
+userName = '19******' # 用户名
 passwd = 'abc***' # 密码
 net = '移动' # 类型，移动，联通，电信
 
@@ -11,7 +11,7 @@ passwd_1 = ''#教学楼校园网密码（身份证后七位的前六位）
 
 # return start urls
 def getStartUrl():
-    return "http://www.baidu.com"
+    return "http://www.baidu.com/robots.txt"
     # return "http://210.42.255.130/portalReceiveAction.do?wlanuserip=10.37.131.137&wlanacname=HNSFDX_H3C-S8808-X"
 
 # 构造数据
