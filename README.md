@@ -61,6 +61,7 @@ python login.py
 新建`wifi`，填入
 
 ~~~bash
+#!/bin/bash
 python3 PATH/login.py
 ~~~
 
